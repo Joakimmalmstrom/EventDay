@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using EventDay.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,9 +12,11 @@ namespace EventDay.Controllers
     [ApiController]
     public class EventDaysController : ControllerBase
     {
-        public EventDaysController()
-        {
+        private EventRepository repo;
 
+        public EventDaysController(EventDayContext context)
+        {
+            repo = new EventRepository(context);
         }
     }
 }
