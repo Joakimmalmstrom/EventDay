@@ -26,9 +26,25 @@ namespace EventDay.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<EventDayDto>>> GetAllEvents()
         {
-            var result = await repo.GetAllEvents();
-            var mappedResult = mapper.Map<IEnumerable<EventDayDto>>(result);
-            return Ok(mappedResult);
+           
+                var result = await repo.GetAllEventsAsync();
+                var mappedResult = mapper.Map<IEnumerable<EventDayDto>>(result);
+                return Ok(mappedResult);
+           
+        } 
+        
+        [HttpGet]
+        [Route("{name}")]
+        public async Task<ActionResult<EventDayDto>> GetEvent(string name)
+        {
+           
+                var result = await repo.GetEventAsync(name);
+
+                if (result is null) return NotFound();
+
+                var mappedResult = mapper.Map<EventDayDto>(result);
+                return Ok(mappedResult);
+           
         }
     }
 }
