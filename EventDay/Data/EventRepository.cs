@@ -15,18 +15,33 @@ namespace EventDay.Data
             this.db = db;
         }
 
-        public async Task<IEnumerable<EventDay.Models.Entities.EventDay>> GetAllEventsAsync()
+        public async Task<IEnumerable<EventDay.Models.Entities.EventDay>> GetAllEventsAsync(bool includeLectures)
         {
-            return await db.EventDays
-                .Include(e => e.Location)
-                .ToListAsync();
+            return includeLectures ? await db.EventDays
+                                              .Include(e => e.Location)
+                                              .Include(e => e.Lectures)
+                                              .ThenInclude(e => e.Speaker)
+                                              .ToListAsync() :
+                                     await db.EventDays
+                                              .Include(e => e.Location)
+                                              .ToListAsync();
         }
 
-        public async Task<Models.Entities.EventDay> GetEventAsync(string name)
+        public async Task<Models.Entities.EventDay> GetEventAsync(string name, bool includeLectures)
         {
-            return await db.EventDays
+            //IQueryable<Models.Entities.EventDay> query =  db.EventDays
+            //    .Include(e => e.Location);           
+            var query = db.EventDays
                 .Include(e => e.Location)
-                .FirstOrDefaultAsync(e => e.Name == name);
+                .AsQueryable();
+
+            if (includeLectures)
+            {
+                query = query.Include(e => e.Lectures)
+                             .ThenInclude(e => e.Speaker);
+            }
+
+            return await query.FirstOrDefaultAsync(e => e.Name == name);
         }
     }
 }

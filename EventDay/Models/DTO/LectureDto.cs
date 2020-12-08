@@ -14,6 +14,6 @@ namespace EventDay.Models.DTO
         public int SpeakerId { get; set; }
 
 
-        public Speaker Speaker { get; set; }
+        public SpeakerDto Speaker { get; set; }
     }
 }

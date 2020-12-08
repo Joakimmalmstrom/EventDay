@@ -24,10 +24,10 @@ namespace EventDay.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<EventDayDto>>> GetAllEvents()
+        public async Task<ActionResult<IEnumerable<EventDayDto>>> GetAllEvents(bool includeLectures = false)
         {
            
-                var result = await repo.GetAllEventsAsync();
+                var result = await repo.GetAllEventsAsync(includeLectures);
                 var mappedResult = mapper.Map<IEnumerable<EventDayDto>>(result);
                 return Ok(mappedResult);
            
@@ -35,10 +35,10 @@ namespace EventDay.Controllers
         
         [HttpGet]
         [Route("{name}")]
-        public async Task<ActionResult<EventDayDto>> GetEvent(string name)
+        public async Task<ActionResult<EventDayDto>> GetEvent(string name, bool includeLectures = false)
         {
            
-                var result = await repo.GetEventAsync(name);
+                var result = await repo.GetEventAsync(name, includeLectures);
 
                 if (result is null) return NotFound();
 
