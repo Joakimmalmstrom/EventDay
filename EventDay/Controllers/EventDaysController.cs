@@ -45,6 +45,15 @@ namespace EventDay.Controllers
                 var mappedResult = mapper.Map<EventDayDto>(result);
                 return Ok(mappedResult);
            
+        } 
+        
+        
+        [HttpGet]
+        [Route("searchByDate/{eventDate:DateTime}")]
+        public async Task<ActionResult<IEnumerable<EventDayDto>>> SearchByEventName(DateTime eventDate, bool includeLectures = false)
+        {
+                var searchResult = await repo.GetAllEventsByDateAsync(eventDate, includeLectures);
+                return Ok(mapper.Map<EventDayDto[]>(searchResult));
         }
     }
 }

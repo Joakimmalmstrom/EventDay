@@ -43,5 +43,20 @@ namespace EventDay.Data
 
             return await query.FirstOrDefaultAsync(e => e.Name == name);
         }
+
+        public async Task<Models.Entities.EventDay[]> GetAllEventsByDateAsync(DateTime eventDate, bool includeLectures)
+        {
+            var query = db.EventDays
+                .Include(e => e.Location)
+                .AsQueryable();
+
+            if (includeLectures)
+            {
+                query = query.Include(e => e.Lectures)
+                             .ThenInclude(e => e.Speaker);
+            }
+
+            return await query.Where(e => e.EventDate.Equals(eventDate)).ToArrayAsync();
+        }
     }
 }
