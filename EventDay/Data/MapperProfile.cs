@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
-using EventDay.Models.DTO;
-using EventDay.Models.Entities;
+using EventDayWeb.Models.DTO;
+using EventDayWeb.Models.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace EventDay.Data
+namespace EventDayWeb.Data
 {
     public class MapperProfile : Profile
     {

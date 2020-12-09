@@ -1,11 +1,11 @@
-﻿using EventDay.Models.Entities;
+﻿using EventDayWeb.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace EventDay.Data
+namespace EventDayWeb.Data
 {
     public class EventRepository
     {
@@ -16,7 +16,7 @@ namespace EventDay.Data
             this.db = db;
         }
 
-        public async Task<IEnumerable<EventDay.Models.Entities.EventDay>> GetAllEventsAsync(bool includeLectures)
+        public async Task<IEnumerable<EventDayWeb.Models.Entities.EventDay>> GetAllEventsAsync(bool includeLectures)
         {
             return includeLectures ? await db.EventDays
                                               .Include(e => e.Location)

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace EventDay.Models.DTO
+namespace EventDayWeb.Models.DTO
 {
     public class SpeakerDto
     {

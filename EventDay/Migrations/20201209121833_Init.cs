@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace EventDay.Migrations
+namespace EventDayWeb.Migrations
 {
     public partial class Init : Migration
     {

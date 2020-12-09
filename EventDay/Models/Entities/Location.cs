@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace EventDay.Models.Entities
+namespace EventDayWeb.Models.Entities
 {
     public class Location
     {

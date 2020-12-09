@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using EventDay.Data;
-using EventDay.Models.DTO;
+using EventDayWeb.Data;
+using EventDayWeb.Models.DTO;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace EventDay.Controllers
+namespace EventDayWeb.Controllers
 {
     [Route("api/events/{name}/lectures")]
     [ApiController]
