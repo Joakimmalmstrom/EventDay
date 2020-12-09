@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using EventDay.Models.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +26,17 @@ namespace EventDay.Data
                                      await db.EventDays
                                               .Include(e => e.Location)
                                               .ToListAsync();
+        }
+
+        public async Task<Lecture[]> GetAllLecturesAsync(string eventName, bool includeSpeakers)
+        {
+            var query = db.Lectures.AsQueryable();
+
+            query = includeSpeakers ? query.Include(l => l.Speaker) : query;
+
+            query = query.Where(l => l.EventDay.Name == eventName.ToUpper());
+
+            return await query.ToArrayAsync();
         }
 
         public async Task<Models.Entities.EventDay> GetEventAsync(string name, bool includeLectures)

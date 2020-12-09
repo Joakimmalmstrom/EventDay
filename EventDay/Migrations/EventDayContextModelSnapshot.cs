@@ -70,7 +70,7 @@ namespace EventDay.Migrations
 
                     b.HasIndex("SpeakerId");
 
-                    b.ToTable("Lecture");
+                    b.ToTable("Lectures");
                 });
 
             modelBuilder.Entity("EventDay.Models.Entities.Location", b =>

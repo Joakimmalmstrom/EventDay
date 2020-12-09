@@ -59,7 +59,7 @@ namespace EventDay.Controllers
         [HttpPost]
         public async Task<ActionResult<IEnumerable<EventDayDto>>> CreateEvent(EventDayDto dto)
         {
-            if(await repo.GetEventAsync(dto.Name, false) != null)
+            if (await repo.GetEventAsync(dto.Name, false) != null)
             {
                 ModelState.AddModelError("Name", "Name in use");
                 return BadRequest(ModelState);
@@ -68,13 +68,15 @@ namespace EventDay.Controllers
             var eventday = mapper.Map<Models.Entities.EventDay>(dto);
             await repo.AddAsync(eventday);
 
-            if(await repo.SaveAsync())
+            if (await repo.SaveAsync())
             {
                 var model = mapper.Map<EventDayDto>(eventday);
                 return CreatedAtAction(nameof(GetEvent), new { name = model.Name }, model);
             }
-
-            return BadRequest();
+            else
+            {
+                return BadRequest();
+            }
         }
     }
 }

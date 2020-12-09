@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EventDay.Migrations
 {
     [DbContext(typeof(EventDayContext))]
-    [Migration("20201207142742_Init")]
+    [Migration("20201209121833_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -72,7 +72,7 @@ namespace EventDay.Migrations
 
                     b.HasIndex("SpeakerId");
 
-                    b.ToTable("Lecture");
+                    b.ToTable("Lectures");
                 });
 
             modelBuilder.Entity("EventDay.Models.Entities.Location", b =>

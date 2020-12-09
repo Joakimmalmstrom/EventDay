@@ -23,9 +23,11 @@ namespace EventDay.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<LectureDto>> GetAll()
+        public async Task<ActionResult<LectureDto>> GetAll(string name, bool includeSpeakers = false)
         {
-            return Ok();
+            var lectures = await repo.GetAllLecturesAsync(name, includeSpeakers);
+            var model = mapper.Map<LectureDto[]>(lectures);
+            return Ok(model);
         }
 
     }

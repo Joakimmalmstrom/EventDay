@@ -65,7 +65,7 @@ namespace EventDay.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Lecture",
+                name: "Lectures",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -77,15 +77,15 @@ namespace EventDay.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Lecture", x => x.Id);
+                    table.PrimaryKey("PK_Lectures", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Lecture_EventDays_EventDayId",
+                        name: "FK_Lectures_EventDays_EventDayId",
                         column: x => x.EventDayId,
                         principalTable: "EventDays",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Lecture_Speaker_SpeakerId",
+                        name: "FK_Lectures_Speaker_SpeakerId",
                         column: x => x.SpeakerId,
                         principalTable: "Speaker",
                         principalColumn: "Id",
@@ -98,20 +98,20 @@ namespace EventDay.Migrations
                 column: "LocationId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Lecture_EventDayId",
-                table: "Lecture",
+                name: "IX_Lectures_EventDayId",
+                table: "Lectures",
                 column: "EventDayId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Lecture_SpeakerId",
-                table: "Lecture",
+                name: "IX_Lectures_SpeakerId",
+                table: "Lectures",
                 column: "SpeakerId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Lecture");
+                name: "Lectures");
 
             migrationBuilder.DropTable(
                 name: "EventDays");
