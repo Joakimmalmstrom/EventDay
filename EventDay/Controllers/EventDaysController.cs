@@ -26,34 +26,55 @@ namespace EventDay.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<EventDayDto>>> GetAllEvents(bool includeLectures = false)
         {
-           
-                var result = await repo.GetAllEventsAsync(includeLectures);
-                var mappedResult = mapper.Map<IEnumerable<EventDayDto>>(result);
-                return Ok(mappedResult);
-           
-        } 
-        
+
+            var result = await repo.GetAllEventsAsync(includeLectures);
+            var mappedResult = mapper.Map<IEnumerable<EventDayDto>>(result);
+            return Ok(mappedResult);
+
+        }
+
         [HttpGet]
         [Route("{name}")]
         public async Task<ActionResult<EventDayDto>> GetEvent(string name, bool includeLectures = false)
         {
-           
-                var result = await repo.GetEventAsync(name, includeLectures);
 
-                if (result is null) return NotFound();
+            var result = await repo.GetEventAsync(name, includeLectures);
 
-                var mappedResult = mapper.Map<EventDayDto>(result);
-                return Ok(mappedResult);
-           
-        } 
-        
-        
+            if (result is null) return NotFound();
+
+            var mappedResult = mapper.Map<EventDayDto>(result);
+            return Ok(mappedResult);
+
+        }
+
+
         [HttpGet]
         [Route("searchByDate/{eventDate:DateTime}")]
         public async Task<ActionResult<IEnumerable<EventDayDto>>> SearchByEventName(DateTime eventDate, bool includeLectures = false)
         {
-                var searchResult = await repo.GetAllEventsByDateAsync(eventDate, includeLectures);
-                return Ok(mapper.Map<EventDayDto[]>(searchResult));
+            var searchResult = await repo.GetAllEventsByDateAsync(eventDate, includeLectures);
+            return Ok(mapper.Map<EventDayDto[]>(searchResult));
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<IEnumerable<EventDayDto>>> CreateEvent(EventDayDto dto)
+        {
+            if(await repo.GetEventAsync(dto.Name, false) != null)
+            {
+                ModelState.AddModelError("Name", "Name in use");
+                return BadRequest(ModelState);
+            }
+
+            var eventday = mapper.Map<Models.Entities.EventDay>(dto);
+            await repo.AddAsync(eventday);
+
+            if(await repo.SaveAsync())
+            {
+                var model = mapper.Map<EventDayDto>(eventday);
+                return CreatedAtAction(nameof(GetEvent), new { name = model.Name }, model);
+            }
+
+            return BadRequest();
         }
     }
 }

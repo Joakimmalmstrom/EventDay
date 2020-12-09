@@ -1,6 +1,7 @@
 ﻿using EventDay.Models.Entities;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -8,6 +9,7 @@ namespace EventDay.Models.DTO
 {
     public class EventDayDto
     {
+        [StringLength(10)]
         public string Name { get; set; }
         public DateTime EventDate { get; set; }
         public int Length { get; set; }
