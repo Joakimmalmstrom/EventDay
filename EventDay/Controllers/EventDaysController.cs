@@ -77,6 +77,33 @@ namespace EventDay.Controllers
             {
                 return BadRequest();
             }
+        } 
+        
+        
+        [HttpPut("{name}")]
+
+        public async Task<ActionResult<EventDayDto>> PutEvent(string name, EventDayDto dto)
+        {
+            //Eller Required attribute
+            if (string.IsNullOrWhiteSpace(dto.Name))
+            {
+                return BadRequest("Name required");
+            }
+
+            var eventday = await repo.GetEventAsync(name, false);
+
+            if (eventday is null) return StatusCode(StatusCodes.Status404NotFound);
+
+            mapper.Map(dto, eventday);
+            if(await repo.SaveAsync())
+            {
+                return Ok(mapper.Map<EventDayDto>(eventday));
+            }
+            else
+            {
+                return StatusCode(500);
+            }
+           
         }
     }
 }

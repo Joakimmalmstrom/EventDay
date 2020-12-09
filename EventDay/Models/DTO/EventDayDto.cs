@@ -10,6 +10,7 @@ namespace EventDay.Models.DTO
     public class EventDayDto
     {
         [StringLength(10)]
+       // [Required]
         public string Name { get; set; }
         public DateTime EventDate { get; set; }
         public int Length { get; set; }
