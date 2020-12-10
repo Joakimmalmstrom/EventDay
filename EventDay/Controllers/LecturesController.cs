@@ -7,6 +7,7 @@ using EventDayWeb.Data;
 using EventDayWeb.Models.DTO;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using EventDayWeb.Models.Entities;
 
 namespace EventDayWeb.Controllers
 {
@@ -28,6 +29,36 @@ namespace EventDayWeb.Controllers
             var lectures = await repo.GetAllLecturesAsync(name, includeSpeakers);
             var model = mapper.Map<LectureDto[]>(lectures);
             return Ok(model);
+        } 
+        
+        
+        [HttpGet]
+        [Route("{id:int}")]
+        public async Task<ActionResult<LectureDto>> Get(int id, bool includeSpeakers = false)
+        {
+            
+            return Ok();
+        }
+
+
+        [HttpPost]
+        public async Task<ActionResult<LectureDto>> AddLecture(string name, LectureDto model)
+        {
+            var eventId = (await repo.GetEventAsync(name, false))?.Id;
+
+            if (eventId is null) return NotFound();
+
+            var lecture = mapper.Map<Lecture>(model);
+            lecture.EventDayId = (int)eventId;
+            await repo.AddAsync(lecture);
+
+            if (await repo.SaveAsync())
+            {
+                return CreatedAtAction("Get", new { id = lecture.Id, name }, mapper.Map<LectureDto>(lecture));
+            }
+            else
+                return StatusCode(500);
+
         }
 
     }

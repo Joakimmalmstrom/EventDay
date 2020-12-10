@@ -10,7 +10,7 @@ namespace EventDayWeb.Models.DTO
     {
         public string Title { get; set; }
         public int Level { get; set; }
-        public int EventDayId { get; set; }
+        //   public int EventDayId { get; set; }
         public int SpeakerId { get; set; }
 
 

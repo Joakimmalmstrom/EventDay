@@ -16,7 +16,7 @@ namespace EventDayWeb.Data
             this.db = db;
         }
 
-        public async Task<IEnumerable<EventDayWeb.Models.Entities.EventDay>> GetAllEventsAsync(bool includeLectures)
+        public async Task<IEnumerable<EventDay>> GetAllEventsAsync(bool includeLectures)
         {
             return includeLectures ? await db.EventDays
                                               .Include(e => e.Location)
@@ -39,7 +39,7 @@ namespace EventDayWeb.Data
             return await query.ToArrayAsync();
         }
 
-        public async Task<Models.Entities.EventDay> GetEventAsync(string name, bool includeLectures)
+        public async Task<EventDay> GetEventAsync(string name, bool includeLectures)
         {
             //IQueryable<Models.Entities.EventDay> query =  db.EventDays
             //    .Include(e => e.Location);           
