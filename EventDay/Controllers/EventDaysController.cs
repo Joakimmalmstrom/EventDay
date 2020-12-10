@@ -6,7 +6,9 @@ using AutoMapper;
 using EventDayWeb.Data;
 using EventDayWeb.Models.DTO;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+
 
 namespace EventDayWeb.Controllers
 {
@@ -84,11 +86,6 @@ namespace EventDayWeb.Controllers
 
         public async Task<ActionResult<EventDayDto>> PutEvent(string name, EventDayDto dto)
         {
-            //Eller Required attribute
-            if (string.IsNullOrWhiteSpace(dto.Name))
-            {
-                return BadRequest("Name required");
-            }
 
             var eventday = await repo.GetEventAsync(name, false);
 
@@ -104,6 +101,35 @@ namespace EventDayWeb.Controllers
                 return StatusCode(500);
             }
            
+        } 
+        
+        
+        
+        [HttpPatch("{name}")]
+
+        public async Task<ActionResult<EventDayDto>> PatchEvent(string name, JsonPatchDocument<EventDayDto> patchDto)
+        {
+            var eventday = await repo.GetEventAsync(name, false);
+
+            if (eventday is null) return NotFound();
+
+            var model = mapper.Map<EventDayDto>(eventday);
+
+            patchDto.ApplyTo(model, ModelState);
+
+            if (!TryValidateModel(model))
+            {
+                return BadRequest(ModelState);
+            }
+
+            mapper.Map(model, eventday);
+
+            if (await repo.SaveAsync())
+            {
+                return Ok(mapper.Map<EventDayDto>(eventday));
+            }
+            else
+                return StatusCode(500);
         }
     }
 }

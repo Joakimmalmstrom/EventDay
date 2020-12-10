@@ -42,6 +42,7 @@ namespace EventDayWeb.Controllers
 
 
         [HttpPost]
+        //ToDo Validate speakerId
         public async Task<ActionResult<LectureDto>> AddLecture(string name, LectureDto model)
         {
             var eventId = (await repo.GetEventAsync(name, false))?.Id;
